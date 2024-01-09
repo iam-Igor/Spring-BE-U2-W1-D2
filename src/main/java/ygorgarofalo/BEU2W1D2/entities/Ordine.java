@@ -18,15 +18,18 @@ public class Ordine {
 
     private double costoTotale;
 
+    private Tavolo tavolo;
+
     private List<Pizza> pizzaList;
     private List<Drink> drinkList;
     private List<Topping> toppingList;
 
 
-    public Ordine(StatoOrdine statoOrdine, int numeroCoperti, LocalTime orarioAcquisizione, List<Pizza> pizzaList, List<Drink> drinkList, int prezzoPerCoperto) {
+    public Ordine(StatoOrdine statoOrdine, int numeroCoperti, Tavolo tavolo, LocalTime orarioAcquisizione, List<Pizza> pizzaList, List<Drink> drinkList, int prezzoPerCoperto) {
         Random rndm = new Random();
         this.numeroOrdine = rndm.nextInt(1, 100);
         this.statoOrdine = statoOrdine;
+        this.tavolo = tavolo;
         this.numeroCoperti = numeroCoperti;
         this.pizzaList = pizzaList;
         this.drinkList = drinkList;
@@ -120,6 +123,8 @@ public class Ordine {
     public void printOrder() {
 
         System.out.println("Ordine numero: " + this.numeroOrdine);
+        System.out.println("Tavolo N: " + this.tavolo.getNumeroTavolo());
+
         for (Pizza pizza : this.pizzaList) {
             System.out.println("Pizza: " + pizza.getName() + ", " + Math.round(pizza.getPrice() * 100) / 100 + " $");
         }
@@ -140,6 +145,8 @@ public class Ordine {
         System.out.println("-------STATO ORDINE-------");
         System.out.println(this.statoOrdine);
         System.out.println("Totale: " + this.costoTotale + " $");
+
+        System.out.println("-------ARRIVEDERCI--------");
     }
 
     @Override

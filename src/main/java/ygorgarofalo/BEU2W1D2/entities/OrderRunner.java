@@ -17,8 +17,11 @@ public class OrderRunner implements CommandLineRunner {
         m.printMenu();
 
 
-        Ordine o = ctx.getBean("order_2", Ordine.class);
-        o.printOrder();
+        Ordine o1 = ctx.getBean("order_1", Ordine.class);
+        o1.printOrder();
+
+        Ordine o2 = ctx.getBean("order_2", Ordine.class);
+        o2.printOrder();
 
 
         ctx.close();

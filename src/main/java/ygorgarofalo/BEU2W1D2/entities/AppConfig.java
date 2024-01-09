@@ -145,7 +145,7 @@ public class AppConfig {
         drinkList.add(lemonadeBean());
 
 
-        return new Ordine(StatoOrdine.IN_CORSO, 4, LocalTime.now(), pizzaList, drinkList, costoPerCoperto);
+        return new Ordine(StatoOrdine.IN_CORSO, 4, getTavolo(), LocalTime.now(), pizzaList, drinkList, costoPerCoperto);
     }
 
     @Bean(name = "order_2")
@@ -162,7 +162,7 @@ public class AppConfig {
         drinkList.add(lemonadeBean());
 
 
-        return new Ordine(StatoOrdine.SERVITO, 2, LocalTime.now(), pizzaList, drinkList, costoPerCoperto);
+        return new Ordine(StatoOrdine.SERVITO, 2, getTavolo2(), LocalTime.now(), pizzaList, drinkList, costoPerCoperto);
     }
 
 }
