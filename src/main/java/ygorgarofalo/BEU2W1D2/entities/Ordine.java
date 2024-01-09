@@ -134,13 +134,6 @@ public class Ordine {
 
         System.out.println("Numero coperti: " + this.numeroCoperti + " * 2$");
 
-//        for (int i = 0; i < this.pizzaList.size(); i++) {
-//
-//            for (int x = 0; x < this.pizzaList.get(i).getToppingList().size(); x++) {
-//                System.out.println("Topping: " + this.pizzaList.get(i).getToppingList().get(x).getName() + "Prezzo: " + this.pizzaList.get(i).getToppingList().get(x).getPrice());
-//            }
-//        }
-
 
         System.out.println("-------STATO ORDINE-------");
         System.out.println(this.statoOrdine);
