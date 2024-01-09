@@ -1,13 +1,11 @@
 package ygorgarofalo.BEU2W1D2.entities;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Random;
 
-@PropertySource("application.properties")
-public class Ordine extends Menu {
+
+public class Ordine {
 
 
     private int numeroOrdine;
@@ -20,14 +18,45 @@ public class Ordine extends Menu {
 
     private double costoTotale;
 
+    private List<Pizza> pizzaList;
+    private List<Drink> drinkList;
+    private List<Topping> toppingList;
 
-    public Ordine(List<Pizza> pizzaList, List<Drink> drinkList, List<Topping> toppingList, int numeroOrdine, StatoOrdine statoOrdine, int numeroCoperti, LocalTime orarioAcquisizione) {
-        super(pizzaList, drinkList, toppingList);
-        this.numeroOrdine = numeroOrdine;
+
+    public Ordine(StatoOrdine statoOrdine, int numeroCoperti, LocalTime orarioAcquisizione, List<Pizza> pizzaList, List<Drink> drinkList, int prezzoPerCoperto) {
+        Random rndm = new Random();
+        this.numeroOrdine = rndm.nextInt(1, 100);
         this.statoOrdine = statoOrdine;
         this.numeroCoperti = numeroCoperti;
+        this.pizzaList = pizzaList;
+        this.drinkList = drinkList;
         this.orarioAcquisizione = orarioAcquisizione;
-        this.costoTotale = getCostoTotale();
+        this.costoTotale = setCostoTotale(prezzoPerCoperto);
+
+    }
+
+    public List<Pizza> getPizzaList() {
+        return pizzaList;
+    }
+
+    public void setPizzaList(List<Pizza> pizzaList) {
+        this.pizzaList = pizzaList;
+    }
+
+    public List<Drink> getDrinkList() {
+        return drinkList;
+    }
+
+    public void setDrinkList(List<Drink> drinkList) {
+        this.drinkList = drinkList;
+    }
+
+    public List<Topping> getToppingList() {
+        return toppingList;
+    }
+
+    public void setToppingList(List<Topping> toppingList) {
+        this.toppingList = toppingList;
     }
 
     public int getNumeroOrdine() {
@@ -66,18 +95,64 @@ public class Ordine extends Menu {
         return costoTotale;
     }
 
-    public double setCostoTotale(@Value("$(costo_coperto)") int costoCoperto) {
-        double total = this.numeroCoperti * costoCoperto;
+    public void setCostoTotale(double costoTotale) {
+        this.costoTotale = costoTotale;
+    }
 
-        if (super.getPizzaList() != null && super.getDrinkList() != null && super.getToppingList() != null) {
-            for (Pizza pizza : super.getPizzaList()) {
-                total += pizza.getPrice();
+    public double setCostoTotale(int costoCoperto) {
+        double costoPizze = 0.0;
+        double costoBevande = 0.0;
+
+        if (this.getPizzaList() != null && this.getDrinkList() != null) {
+            for (Pizza pizza : this.getPizzaList()) {
+                costoPizze += pizza.getPrice();
             }
-            for (Drink drink : super.getDrinkList()) {
-                total += drink.getPrice();
+            for (Drink drink : this.getDrinkList()) {
+                costoBevande += drink.getPrice();
             }
         }
-        return total;
 
+        costoTotale = costoCoperto * this.numeroCoperti + costoPizze + costoBevande;
+        return (double) Math.round(costoTotale * 100) / 100;
+    }
+
+
+    public void printOrder() {
+
+        System.out.println("Ordine numero: " + this.numeroOrdine);
+        for (Pizza pizza : this.pizzaList) {
+            System.out.println("Pizza: " + pizza.getName() + ", " + Math.round(pizza.getPrice() * 100) / 100 + " $");
+        }
+        for (Drink drink : this.drinkList) {
+            System.out.println("Drink: " + drink.getName() + ", " + Math.round(drink.getPrice() * 100) / 100 + " $");
+        }
+
+        System.out.println("Numero coperti: " + this.numeroCoperti + " * 2$");
+
+//        for (int i = 0; i < this.pizzaList.size(); i++) {
+//
+//            for (int x = 0; x < this.pizzaList.get(i).getToppingList().size(); x++) {
+//                System.out.println("Topping: " + this.pizzaList.get(i).getToppingList().get(x).getName() + "Prezzo: " + this.pizzaList.get(i).getToppingList().get(x).getPrice());
+//            }
+//        }
+
+
+        System.out.println("-------STATO ORDINE-------");
+        System.out.println(this.statoOrdine);
+        System.out.println("Totale: " + this.costoTotale + " $");
+    }
+
+    @Override
+    public String toString() {
+        return "Ordine{" +
+                "numeroOrdine=" + numeroOrdine +
+                ", statoOrdine=" + statoOrdine +
+                ", numeroCoperti=" + numeroCoperti +
+                ", orarioAcquisizione=" + orarioAcquisizione +
+                ", costoTotale=" + costoTotale +
+                ", pizzaList=" + pizzaList +
+                ", drinkList=" + drinkList +
+                ", toppingList=" + toppingList +
+                '}';
     }
 }

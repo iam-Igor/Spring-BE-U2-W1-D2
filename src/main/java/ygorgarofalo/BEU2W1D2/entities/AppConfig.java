@@ -1,12 +1,16 @@
 package ygorgarofalo.BEU2W1D2.entities;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
+@PropertySource("application.properties")
 public class AppConfig {
     @Bean(name = "toppings_tomato")
     public Topping toppingTomatoBean() {
@@ -108,4 +112,57 @@ public class AppConfig {
 
         return new Menu(pizzaList, drinkList, toppingsList);
     }
+
+
+    @Bean(name = "Tavolo_1")
+    public Tavolo getTavolo() {
+
+        return new Tavolo(8, StatoTavolo.LIBERO);
+    }
+
+    @Bean(name = "Tavolo_2")
+    public Tavolo getTavolo2() {
+
+        return new Tavolo(4, StatoTavolo.OCCUPATO);
+    }
+
+
+    @Bean(name = "order_1")
+    public Ordine getOrdine(@Value("${costoCoperto}") int costoPerCoperto) {
+
+        List<Pizza> pizzaList = new ArrayList<>();
+        List<Drink> drinkList = new ArrayList<>();
+
+
+        pizzaList.add(pizzaHawaiianBean());
+        pizzaList.add(pizzaHawaiianBean());
+        pizzaList.add(pizzaSalamiBean());
+        pizzaList.add(pizzaMargheritaBean());
+
+        drinkList.add(waterBean());
+        drinkList.add(waterBean());
+        drinkList.add(lemonadeBean());
+        drinkList.add(lemonadeBean());
+
+
+        return new Ordine(StatoOrdine.IN_CORSO, 4, LocalTime.now(), pizzaList, drinkList, costoPerCoperto);
+    }
+
+    @Bean(name = "order_2")
+    public Ordine getOrdine2(@Value("${costoCoperto}") int costoPerCoperto) {
+
+        List<Pizza> pizzaList = new ArrayList<>();
+        List<Drink> drinkList = new ArrayList<>();
+
+
+        pizzaList.add(pizzaHawaiianBean());
+        pizzaList.add(pizzaHawaiianBean());
+
+        drinkList.add(waterBean());
+        drinkList.add(lemonadeBean());
+
+
+        return new Ordine(StatoOrdine.SERVITO, 2, LocalTime.now(), pizzaList, drinkList, costoPerCoperto);
+    }
+
 }
